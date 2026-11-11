@@ -4,6 +4,7 @@ def guessTheNumber() -> None:
     secretNum: int = random.randint(1, 10)
     pastGuesses: list = []
     rightGuesses: bool = False
+    userPoints: int = 0
 
     while not rightGuesses:
         try:
@@ -20,6 +21,14 @@ def guessTheNumber() -> None:
 
         if userNum == secretNum:
             print("You got it! Great job!")
+
+            if len(pastGuesses) == 1:
+                userPoints = 5
+            elif len(pastGuesses) == 2 or len(pastGuesses) == 3 or len(pastGuesses) == 4:
+                userPoints = 3
+            else:
+                userPoints = 1        
+            print("Great job! You have earned", userPoints, "points.")
             print("Here is a list of all your guesses:", pastGuesses)
             break
         elif userNum < secretNum:
