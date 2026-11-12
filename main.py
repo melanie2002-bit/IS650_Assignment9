@@ -1,20 +1,29 @@
 import random
 
-def guessTheNumber() -> None:
-    secretNum: int = random.randint(1, 10)
-    pastGuesses: list = []
+def chooseDifficulty() -> tuple[str, int]:
+    difficultyRanges: dict[str, int] = {"easy": 10, "medium": 15, "hard": 20}
+
+    while True:
+        difficulty: str = input("Choose a difficulty (easy, medium, or hard): ").strip().lower()
+        if difficulty in difficultyRanges:
+            return difficulty, difficultyRanges[difficulty]
+        print("Please choose easy, medium, or hard.")
+
+def guessTheNumber(maxNumber: int) -> None:
+    secretNum: int = random.randint(1, maxNumber)
+    pastGuesses: list[int] = []
     rightGuesses: bool = False
     userPoints: int = 0
 
     while not rightGuesses:
         try:
-            userNum: int = int(input("Pick a number between 1 and 10: "))
+            userNum: int = int(input(f"Pick a number between 1 and {maxNumber}: "))
         except ValueError:
             print("Please enter a whole number.")
             continue
 
-        if not 1 <= userNum <= 10:
-            print("Your guess must be between 1 and 10.")
+        if not 1 <= userNum <= maxNumber:
+            print(f"Your guess must be between 1 and {maxNumber}.")
             continue
 
         pastGuesses.append(userNum)
@@ -38,9 +47,10 @@ def guessTheNumber() -> None:
 
 def main() -> None:
     print("Welcome to the Number Guessing Game!")
-    print("I have chosen a secret number between 1 and 10!")
+    difficulty, maxNumber = chooseDifficulty()
+    print(f"I have chosen a secret number between 1 and {maxNumber} for {difficulty} mode!")
 
-    guessTheNumber()
+    guessTheNumber(maxNumber)
 
 if __name__ == "__main__":
     main()
